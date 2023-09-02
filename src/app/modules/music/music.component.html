@@ -13,7 +13,7 @@
   
     <ng-container matColumnDef="url">
       <th mat-header-cell *matHeaderCellDef> Наименование звука </th>
-      <td mat-cell *matCellDef="let element"> {{element.url}} </td>
+      <td mat-cell *matCellDef="let element"> {{element.url | url}} </td>
     </ng-container>
   
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

@@ -1,0 +1,13 @@
+.table-wrapper{
+    width: 80%;
+    margin: auto;
+    padding: 50px 0;
+}
+
+tr{
+    transition: 1s ease background-color;
+    &:not(.mat-mdc-header-row):hover{
+        cursor: pointer;
+        background-color: lightgrey;
+    }
+}

@@ -5,7 +5,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class UrlPipe implements PipeTransform {
 
-  transform(value: string, args?: any): any {
+  transform(value: string): string {
       const mas = value.split('/')
       return mas[mas.length - 1]
   }

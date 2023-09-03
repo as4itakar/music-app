@@ -7,6 +7,7 @@ import { UrlPipe } from 'src/app/pipes/url.pipe';
 import { PlayerComponent } from '../components/player/player.component';
 import {MatIconModule} from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
+import { TimePipe } from 'src/app/pipes/time.pipe';
 
 @NgModule({
   imports: [
@@ -19,7 +20,8 @@ import { FormsModule } from '@angular/forms';
   declarations: [
     MusicComponent, 
     PlayerComponent,
-    UrlPipe
+    UrlPipe,
+    TimePipe
   ],
   exports: [MusicComponent]
 })

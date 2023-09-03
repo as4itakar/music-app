@@ -96,6 +96,7 @@ export class MusicPlayerService {
       }
       const preogress = this.player.currentTime / this.player.duration
       this.musicState.progress = preogress
+      this.musicState.currentTime = this.player.currentTime
       this.playerState.next(this.musicState)
       if(this.player.currentTime === this.player.duration){
         this.nextAudio()

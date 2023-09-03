@@ -12,12 +12,12 @@ export class MusicPlayerService {
     this.musicArr = [
       {
         id: 1,
-        url: 'assets/music/Anri - Shyness boy.mp3',
+        url: 'assets/music/Anri-Shyness boy.mp3',
         name: 'Shyness boy'
       },
       {
         id: 2,
-        url: 'assets/music/Kill la Kill - Before my body is dry.mp3',
+        url: 'assets/music/Kill_la_Kill-Before_my_body_is_dry.mp3',
         name: 'Before my body is dry'
       },
       {
@@ -35,6 +35,12 @@ export class MusicPlayerService {
 
   get music(): Music[]{
     return this.musicArr
+  }
+
+  setAudioUrl(url:string): void{
+    this.player.volume = 0.3
+    this.player.src = url
+    this.player.play()
   }
 
 }

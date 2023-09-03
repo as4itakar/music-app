@@ -21,4 +21,9 @@ export class MusicComponent implements OnInit {
   ngOnInit() {
   }
 
+
+  chooseMusic(audioUrl: string){
+    this.musicPlayer.setAudioUrl(audioUrl)
+  }
+
 }

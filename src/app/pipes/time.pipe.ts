@@ -14,7 +14,7 @@ export class TimePipe implements PipeTransform {
       sec = Math.trunc(value % 60).toString()
     }
     if (min.length === 1){
-      time = '0' + min
+      min = '0' + min
     }
     if (sec.length === 1){
       sec = '0' + sec

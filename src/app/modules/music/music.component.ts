@@ -22,8 +22,8 @@ export class MusicComponent implements OnInit {
   }
 
 
-  chooseMusic(audioUrl: string){
-    this.musicPlayer.setAudioUrl(audioUrl)
+  chooseMusic(audioId: number){
+    this.musicPlayer.startAudio(audioId)
   }
 
 }

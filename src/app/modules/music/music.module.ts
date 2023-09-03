@@ -6,12 +6,14 @@ import { MusicPlayerService } from 'src/app/services/music-player/music-player.s
 import { UrlPipe } from 'src/app/pipes/url.pipe';
 import { PlayerComponent } from '../components/player/player.component';
 import {MatIconModule} from '@angular/material/icon';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
     CommonModule,
     MatTableModule,
-    MatIconModule
+    MatIconModule,
+    FormsModule
   ],
   providers: [MusicPlayerService],
   declarations: [

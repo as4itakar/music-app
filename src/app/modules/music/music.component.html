@@ -17,7 +17,7 @@
     </ng-container>
   
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="chooseMusic(row.url)"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="chooseMusic(row.id)"></tr>
   </table>
 </section>
 <app-player></app-player>

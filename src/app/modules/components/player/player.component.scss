@@ -12,6 +12,7 @@
     transform: translateX(-50%);
     color: $blue;
     padding: 0 10px;
+    transition: .5s ease all;
 }
 
 .controler-container{
@@ -27,6 +28,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.icon{
+    cursor: pointer;
 }
 
 .play-btn{
@@ -87,9 +92,9 @@
 }
 
 
-@media screen and (max-width: 650px) {
+@media screen and (max-width: 750px) {
     .player-wrapper{
-        width: 98%;
+        width: 90%;
     }
 }
 

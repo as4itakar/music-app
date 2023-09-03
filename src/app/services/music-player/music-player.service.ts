@@ -1,14 +1,31 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import { Music } from 'src/app/types/Music';
+import { MusicState } from 'src/app/types/MusicState';
 
 @Injectable()
 export class MusicPlayerService {
 
   private musicArr: Music[]
 
+  playerState: BehaviorSubject<MusicState>
+
   player = new Audio()
 
-  constructor() { 
+  musicState: MusicState
+
+  constructor() {
+
+    this.musicState = {
+      id: 0,
+      name: '',
+      play: false,
+      volume: 0.5,
+      currentTime: 0
+    }
+
+    this.playerState = new BehaviorSubject(this.musicState)
+
     this.musicArr = [
       {
         id: 1,
@@ -37,10 +54,96 @@ export class MusicPlayerService {
     return this.musicArr
   }
 
-  setAudioUrl(url:string): void{
-    this.player.volume = 0.3
-    this.player.src = url
-    this.player.play()
+  submitOnAudio(): BehaviorSubject<MusicState>{
+    return this.playerState
   }
 
+  startAudio(id: number): void{
+    if (id === this.musicState.id){
+      if (this.player.paused){
+        this.playAudio()
+      }
+      else{
+        this.pauseAudio()
+      }
+      return
+    }
+    const track = this.musicArr.find( (m) => m.id === id)
+    if(track){
+      this.player.volume = this.musicState.volume
+      this.player.src = track.url
+      this.player.play()
+      this.musicState.name = track.name
+      this.musicState.play = true
+      this.musicState.id = track.id
+      this.playerState.next(this.musicState)
+    }
+  }
+
+  playAudio(){
+    this.player.play()
+    this.musicState.play = true
+    this.playerState.next(this.musicState)
+  }
+
+  pauseAudio(){
+    this.player.pause()
+    this.musicState.play = false
+    this.playerState.next(this.musicState)
+  }
+
+  changeAudioVolume(vol: number){
+    this.player.volume = vol
+    this.musicState.volume = vol
+  }
+
+  changeAudioTime(time: number){
+    this.player.currentTime = this.player.duration * time
+  }
+
+  nextAudio(){
+    const track = this.musicArr.find( (m) => m.id === (this.musicState.id + 1))
+    if (track){
+      this.player.src = track.url
+      this.player.play()
+      this.musicState.name = track.name
+      this.musicState.play = true
+      this.musicState.id = track.id
+      this.playerState.next(this.musicState)
+    }else{
+      this.player.src = this.musicArr[0].url
+      this.player.play()
+      this.musicState.name = this.musicArr[0].name
+      this.musicState.play = true
+      this.musicState.id = this.musicArr[0].id
+      this.playerState.next(this.musicState)
+    }
+  }
+
+  prevAudio(){
+    const track = this.musicArr.find( (m) => m.id === (this.musicState.id - 1))
+    if (track){
+      this.player.src = track.url
+      this.player.play()
+      this.musicState.name = track.name
+      this.musicState.play = true
+      this.musicState.id = track.id
+      this.playerState.next(this.musicState)
+    }else{
+      this.player.currentTime = 0
+      this.player.play()
+    }
+  }
+
+  offAudioVolume(){
+    this.player.volume = 0
+    this.musicState.volume = 0
+    this.playerState.next(this.musicState)
+  }
+
+  onAudioVolume(){
+    this.player.volume = 0.5
+    this.musicState.volume = 0.5
+    this.playerState.next(this.musicState)
+  }
 }

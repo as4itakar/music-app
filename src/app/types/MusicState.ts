@@ -3,5 +3,6 @@ export interface MusicState{
     name: string,
     play: boolean,
     volume: number,
-    currentTime: number
+    currentTime: number,
+    progress: number
 }

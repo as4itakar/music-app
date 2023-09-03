@@ -21,7 +21,8 @@ export class MusicPlayerService {
       name: '',
       play: false,
       volume: 0.5,
-      currentTime: 0
+      currentTime: 0,
+      progress: 0
     }
 
     this.playerState = new BehaviorSubject(this.musicState)
@@ -72,18 +73,44 @@ export class MusicPlayerService {
     if(track){
       this.player.volume = this.musicState.volume
       this.player.src = track.url
+      this.player.preload = 'metadata'
       this.player.play()
       this.musicState.name = track.name
       this.musicState.play = true
       this.musicState.id = track.id
       this.playerState.next(this.musicState)
+      this.durationAnimation(this.musicState.name)
     }
+  }
+
+  durationAnimation(audioName:string){
+    console.log('asd')
+    requestAnimationFrame(
+      this.mes.bind(this, audioName)
+    )
+  }
+
+  mes(audioName: string):void{
+      if(audioName !== this.musicState.name){
+        return
+      }
+      const preogress = this.player.currentTime / this.player.duration
+      this.musicState.progress = preogress
+      this.playerState.next(this.musicState)
+      if(this.player.currentTime === this.player.duration){
+        this.nextAudio()
+        return
+      } else if (this.player.paused){
+        return
+      }
+      requestAnimationFrame(this.mes.bind(this, audioName))
   }
 
   playAudio(){
     this.player.play()
     this.musicState.play = true
     this.playerState.next(this.musicState)
+    this.durationAnimation(this.musicState.name)
   }
 
   pauseAudio(){
@@ -118,6 +145,7 @@ export class MusicPlayerService {
       this.musicState.id = this.musicArr[0].id
       this.playerState.next(this.musicState)
     }
+    this.durationAnimation(this.musicState.name)
   }
 
   prevAudio(){
@@ -133,6 +161,7 @@ export class MusicPlayerService {
       this.player.currentTime = 0
       this.player.play()
     }
+    this.durationAnimation(this.musicState.name)
   }
 
   offAudioVolume(){

@@ -1,18 +1,22 @@
-import { Directive, ElementRef, HostListener, Renderer2 } from '@angular/core';
+import { Directive, ElementRef, HostListener, Input, Renderer2 } from '@angular/core';
 
 @Directive({
   selector: '[scale]'
 })
 export class ScaleDirective {
 
+  @Input() scaleSize: string = ""
+
+  @Input() defaultSize: string = ""
+
   constructor(private el: ElementRef, private render: Renderer2) { }
 
   @HostListener("mouseenter") onMouseEnter() {
-    this.setFontWeight('110%');
+    this.setFontWeight(this.scaleSize);
 }
 
   @HostListener("mouseleave") onMouseLeave() {
-    this.setFontWeight('100%');
+    this.setFontWeight(this.defaultSize);
   }
 
   private setFontWeight(size: string) {

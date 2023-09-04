@@ -5,11 +5,11 @@
   </article>
   <article class="controler-container">
     <div class="left-side">
-      <button scale *ngIf="!this.musicState.play;else stopBtn" (click)="playMusic()" type="button" class="play-btn">
+      <button scale defaultSize="100%" scaleSize="110%" *ngIf="!this.musicState.play;else stopBtn" (click)="playMusic()" type="button" class="play-btn">
         <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="play_arrow"></mat-icon>
       </button>
       <ng-template #stopBtn>
-        <button scale (click)="stopMusic()" type="button" class="play-btn">
+        <button scale defaultSize="100%" scaleSize="110%" (click)="stopMusic()" type="button" class="play-btn">
           <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="pause"></mat-icon>
         </button>
       </ng-template>

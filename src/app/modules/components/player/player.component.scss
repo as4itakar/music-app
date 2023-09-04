@@ -10,7 +10,7 @@
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
-    color: $blue;
+    color: $light-blue;
     padding: 0 10px;
     transition: .5s ease all;
 }
@@ -41,7 +41,7 @@
 .play-btn{
     height: 40px;
     width: 40px;
-    background-color: $blue;
+    background-color: $light-blue;
     border-radius: 50px;
     border: none;
     color: $white;
@@ -84,16 +84,16 @@
     -webkit-appearance: none;
     height: 20px;
     width: 20px;
-    background: $blue;
+    background: $light-blue;
     border-radius: 50px;
-    border: 1px solid $white;
+    border: 2px solid $white;
     cursor: pointer;
-    box-shadow: -407px 0 0 400px $blue;
+    box-shadow: -407px 0 0 400px $light-blue;
 }
 
 .duration-range::-moz-range-progress{
     height: 100%;
-    background: $blue;
+    background: $light-blue;
 }
 
 

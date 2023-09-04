@@ -8,6 +8,7 @@ import { PlayerComponent } from '../components/player/player.component';
 import {MatIconModule} from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
 import { TimePipe } from 'src/app/pipes/time.pipe';
+import { MusicControllerService } from 'src/app/services/music-controller/music-controller.service';
 
 @NgModule({
   imports: [
@@ -16,7 +17,10 @@ import { TimePipe } from 'src/app/pipes/time.pipe';
     MatIconModule,
     FormsModule
   ],
-  providers: [MusicPlayerService],
+  providers: [
+    MusicPlayerService,
+    MusicControllerService
+  ],
   declarations: [
     MusicComponent, 
     PlayerComponent,

@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Music } from 'src/app/types/Music';
 import { MusicState } from 'src/app/types/MusicState';
+import { MusicControllerService } from '../music-controller/music-controller.service';
+import { MusicStateControllerService } from '../music-state-controller/music-state-controller.service';
+
 
 @Injectable()
 export class MusicPlayerService {
@@ -10,22 +13,9 @@ export class MusicPlayerService {
 
   playerState: BehaviorSubject<MusicState>
 
-  player = new Audio()
+  constructor(private musicController: MusicControllerService, private musicStateController: MusicStateControllerService) {
 
-  musicState: MusicState
-
-  constructor() {
-
-    this.musicState = {
-      id: 0,
-      name: '',
-      play: false,
-      volume: 0.5,
-      currentTime: 0,
-      progress: 0
-    }
-
-    this.playerState = new BehaviorSubject(this.musicState)
+    this.playerState = new BehaviorSubject(this.musicStateController.state)
 
     this.musicArr = [
       {
@@ -35,7 +25,7 @@ export class MusicPlayerService {
       },
       {
         id: 2,
-        url: 'assets/music/Kill_la_Kill-Before_my_body_is_dry.mp3',
+        url: 'assets/music/Kill la Kill-Before my body is dry.mp3',
         name: 'Before my body is dry'
       },
       {
@@ -59,121 +49,93 @@ export class MusicPlayerService {
     return this.playerState
   }
 
+  sendAudioSub(): void{
+    this.playerState.next(this.musicStateController.state)
+  }
+
+  findTrack(id: number): Music | undefined{
+    return this.musicArr.find( (m) => m.id === id)
+  }
+
   startAudio(id: number): void{
-    if (id === this.musicState.id){
-      if (this.player.paused){
-        this.playAudio()
-      }
-      else{
-        this.pauseAudio()
-      }
-      return
-    }
-    const track = this.musicArr.find( (m) => m.id === id)
+    const track = this.findTrack(id)
     if(track){
-      this.player.volume = this.musicState.volume
-      this.player.src = track.url
-      this.player.preload = 'metadata'
-      this.player.play()
-      this.musicState.name = track.name
-      this.musicState.play = true
-      this.musicState.id = track.id
-      this.playerState.next(this.musicState)
-      this.durationAnimation(this.musicState.name)
+      this.musicController.start(track.url, track.name, track.id)
+      this.sendAudioSub()
+      this.durationAnimation()
     }
   }
 
-  durationAnimation(audioName:string){
-    console.log('asd')
+  durationAnimation(){
     requestAnimationFrame(
-      this.mes.bind(this, audioName)
+      this.mes.bind(this, this.musicStateController.stateName)
     )
   }
 
   mes(audioName: string):void{
-      if(audioName !== this.musicState.name){
+      if(audioName !== this.musicStateController.stateName){
         return
       }
-      const preogress = this.player.currentTime / this.player.duration
-      this.musicState.progress = preogress
-      this.musicState.currentTime = this.player.currentTime
-      this.playerState.next(this.musicState)
-      if(this.player.currentTime === this.player.duration){
+      this.musicController.changeProgress()
+      this.sendAudioSub()
+      if(this.musicController.currentTime === this.musicController.duration){
         this.nextAudio()
         return
-      } else if (this.player.paused){
+      } else if (this.musicController.paused){
         return
       }
       requestAnimationFrame(this.mes.bind(this, audioName))
   }
 
   playAudio(){
-    this.player.play()
-    this.musicState.play = true
-    this.playerState.next(this.musicState)
-    this.durationAnimation(this.musicState.name)
+    this.musicController.play()
+    this.sendAudioSub()
+    this.durationAnimation()
   }
 
   pauseAudio(){
-    this.player.pause()
-    this.musicState.play = false
-    this.playerState.next(this.musicState)
+    this.musicController.pause()
+    this.sendAudioSub()
   }
 
   changeAudioVolume(vol: number){
-    this.player.volume = vol
-    this.musicState.volume = vol
+    this.musicController.changeVolume(vol)
   }
 
   changeAudioTime(time: number){
-    this.player.currentTime = this.player.duration * time
+    this.musicController.changeTime(time)
   }
 
   nextAudio(){
-    const track = this.musicArr.find( (m) => m.id === (this.musicState.id + 1))
+    const track = this.findTrack(this.musicStateController.id + 1)
     if (track){
-      this.player.src = track.url
-      this.player.play()
-      this.musicState.name = track.name
-      this.musicState.play = true
-      this.musicState.id = track.id
-      this.playerState.next(this.musicState)
+      this.musicController.quickChange(track.url, track.name, track.id)
+      this.sendAudioSub()
     }else{
-      this.player.src = this.musicArr[0].url
-      this.player.play()
-      this.musicState.name = this.musicArr[0].name
-      this.musicState.play = true
-      this.musicState.id = this.musicArr[0].id
-      this.playerState.next(this.musicState)
+      this.musicController.quickChange(this.musicArr[0].url, this.musicArr[0].name, this.musicArr[0].id)
+      this.sendAudioSub()
     }
-    this.durationAnimation(this.musicState.name)
+    this.durationAnimation()
   }
 
   prevAudio(){
-    const track = this.musicArr.find( (m) => m.id === (this.musicState.id - 1))
+    const track = this.findTrack(this.musicStateController.id - 1)
     if (track){
-      this.player.src = track.url
-      this.player.play()
-      this.musicState.name = track.name
-      this.musicState.play = true
-      this.musicState.id = track.id
-      this.playerState.next(this.musicState)
+      this.musicController.quickChange(track.url, track.name, track.id)
+      this.sendAudioSub()
     }else{
-      this.player.currentTime = 0
-      this.player.play()
+      this.musicController.repeat()
     }
-    this.durationAnimation(this.musicState.name)
+    this.durationAnimation()
   }
 
   offAudioVolume(){
-    this.player.volume = 0
-    this.musicState.volume = 0
-    this.playerState.next(this.musicState)
+    this.musicController.changeVolume(0)
+    this.sendAudioSub()
   }
 
   onAudioVolume(){
-    this.player.volume = 0.5
-    this.musicState.volume = 0.5
-    this.playerState.next(this.musicState)
+    this.musicController.changeVolume(0.5)
+    this.sendAudioSub()
   }
 }

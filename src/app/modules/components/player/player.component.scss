@@ -101,6 +101,17 @@
     .player-wrapper{
         width: 90%;
     }
+
+    .right-side{
+        width: 60px;
+        h5{
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+    }
 }
+
+
 
 

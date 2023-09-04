@@ -13,10 +13,11 @@
     color: $light-blue;
     padding: 0 10px;
     transition: .5s ease all;
+    opacity: 0;
 }
 
 .visible{
-    bottom: 0
+    opacity: 10;
 }
 
 .controler-container{
@@ -36,6 +37,11 @@
 
 .icon{
     cursor: pointer;
+    transition: 1s ease color;
+}
+
+.icon:hover{
+    color: $blue;
 }
 
 .play-btn{
@@ -47,7 +53,12 @@
     color: $white;
     margin-right: 10px;
     cursor: pointer;
+    transition: 1s ease transform;
 }
+
+// .play-btn:hover{
+//     transform: scale(110%, 110%);
+// }
 
 .right-side{
    color: white;
@@ -70,6 +81,7 @@
 }
 
 .duration-range, .volume-range{
+    appearance: none;
     -webkit-appearance: none;
     height: 20px;
     background: #111;
@@ -81,6 +93,7 @@
 }
 
 .duration-range::-webkit-slider-thumb, .volume-range::-webkit-slider-thumb{
+    appearance: none;
     -webkit-appearance: none;
     height: 20px;
     width: 20px;

@@ -13,6 +13,7 @@ export class MusicStateControllerService {
       id: 0,
       name: '',
       play: false,
+      stay: false,
       volume: 0.5,
       currentTime: 0,
       progress: 0
@@ -29,6 +30,10 @@ export class MusicStateControllerService {
 
   changePlay(play: boolean): void{
     this.musicState.play = play
+  }
+
+  changeStay(stay: boolean): void{
+    this.musicState.stay = stay
   }
 
   changeVolume(volume: number): void{

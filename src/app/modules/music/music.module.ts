@@ -9,6 +9,7 @@ import {MatIconModule} from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
 import { TimePipe } from 'src/app/pipes/time.pipe';
 import { MusicControllerService } from 'src/app/services/music-controller/music-controller.service';
+import { ScaleDirective } from 'src/app/directives/scale.directive';
 
 @NgModule({
   imports: [
@@ -25,7 +26,8 @@ import { MusicControllerService } from 'src/app/services/music-controller/music-
     MusicComponent, 
     PlayerComponent,
     UrlPipe,
-    TimePipe
+    TimePipe,
+    ScaleDirective
   ],
   exports: [MusicComponent]
 })

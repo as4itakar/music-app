@@ -30,49 +30,50 @@ export class MusicControllerService {
     return this.player.paused
   }
 
-  play(){
+  play(): void{
     this.player.play()
     this.musicStateController.changePlay(true)
   }
 
-  pause(){
+  pause(): void{
     this.player.pause()
     this.musicStateController.changePlay(false)
   }
 
-  repeat(){
+  repeat(): void{
     this.changeTime(0)
     this.player.play()
   }
 
-  changeVolume(volume: number){
+  changeVolume(volume: number): void{
     this.player.volume = volume
     this.musicStateController.changeVolume(volume)
   }
 
-  changeTime(time: number){
+  changeTime(time: number): void{
     const distance = this.player.duration * time
     this.player.currentTime = distance
     this.musicStateController.changeTime(distance, time)
   }
 
-  quickChange(url: string, name: string, id: number){
+  quickChange(url: string, name: string, id: number): void{
     this.changeSrc(url)
     this.musicStateController.changeName(name)
     this.musicStateController.changeId(id)
   }
 
-  start(url: string, name: string, id: number){
+  start(url: string, name: string, id: number): void{
     this.changeVolume(this.musicStateController.stateVolume)
+    this.musicStateController.changeStay(true)
     this.quickChange(url, name, id)
   }
 
-  changeProgress(){
+  changeProgress(): void{
     const progress = this.currentTime / this.duration
     this.musicStateController.changeTime(this.currentTime, progress)
   }
 
-  changeSrc(src: string){
+  changeSrc(src: string): void{
     this.player.src = src
     this.play()
   }

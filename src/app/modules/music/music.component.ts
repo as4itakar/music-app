@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MusicListControllerService } from 'src/app/services/music-list-controller/music-list-controller.service';
 import { MusicPlayerService } from 'src/app/services/music-player/music-player.service';
 import { Music } from 'src/app/types/Music';
 
@@ -13,9 +14,9 @@ export class MusicComponent implements OnInit {
   
   dataSource: Music[];
 
-  constructor(private musicPlayer: MusicPlayerService) { 
+  constructor(private musicListController: MusicListControllerService, private musicPlayer: MusicPlayerService) { 
     this.displayedColumns = ['id', 'name', 'url']
-    this.dataSource = musicPlayer.music
+    this.dataSource = musicListController.music
   }
 
   ngOnInit() {

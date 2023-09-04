@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MusicStateControllerService } from '../music-state-controller/music-state-controller.service';
+import { BehaviorSubject } from 'rxjs';
+import { MusicState } from 'src/app/types/MusicState';
 
 @Injectable({
   providedIn: 'root'
@@ -8,9 +10,24 @@ export class MusicControllerService {
 
   private player: HTMLAudioElement
 
+  playerState: BehaviorSubject<MusicState>
+
   constructor( private musicStateController: MusicStateControllerService ) {
+    this.playerState = new BehaviorSubject(this.musicStateController.state)
     this.player = new Audio()
     this.player.preload = 'metadata'
+  }
+
+  get currentTime(): number{
+    return this.player.currentTime
+  }
+
+  get duration(): number{
+    return this.player.duration
+  }
+
+  get paused(): boolean{
+    return this.player.paused
   }
 
   play(){
@@ -34,7 +51,9 @@ export class MusicControllerService {
   }
 
   changeTime(time: number){
-    this.player.currentTime = this.player.duration * time
+    const distance = this.player.duration * time
+    this.player.currentTime = distance
+    this.musicStateController.changeTime(distance, time)
   }
 
   quickChange(url: string, name: string, id: number){
@@ -58,16 +77,16 @@ export class MusicControllerService {
     this.play()
   }
 
-  get currentTime(): number{
-    return this.player.currentTime
+  submitOnAudio(): BehaviorSubject<MusicState>{
+    return this.playerState
   }
 
-  get duration(): number{
-    return this.player.duration
+  sendAudioSub(): void{
+    this.playerState.next(this.musicStateController.state)
   }
 
-  get paused(): boolean{
-    return this.player.paused
+  getmusicId(): number{
+    return this.musicStateController.id
   }
 
 }

@@ -16,7 +16,7 @@ export class PlayerComponent implements OnInit, OnDestroy {
 
   musicState: MusicState
 
-  ngOnInit() {
+  ngOnInit(): void{
     this.musicSub = this.musicPlayer.submitOnPlayer().subscribe(
       (m) => this.musicState = m
     )

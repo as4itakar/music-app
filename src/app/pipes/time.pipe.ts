@@ -6,7 +6,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class TimePipe implements PipeTransform {
 
   transform(value: number): string{
-    let time: string
+    
     let min: string = '0'
     let sec: string = Math.trunc(value).toString()
     if (value >= 60){

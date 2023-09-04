@@ -1,21 +1,23 @@
 <section class="player-wrapper" [ngClass]="{visible: this.musicState.stay}">
   <article class="duration-container">
     <h5>{{this.musicState.currentTime | time}}</h5>
-    <input [ngModel]="this.musicState.progress" (ngModelChange)="changeTime($event)" class="duration-range" type="range" min="0" max="1" value="0" step="0.000001">
+    <input [ngModel]="this.musicState.progress" (ngModelChange)="changeTime($event)" class="duration-range" type="range" min="0" max="1" step="0.000001">
   </article>
   <article class="controler-container">
     <div class="left-side">
-      <button scale *ngIf="!this.musicState.play" (click)="playMusic()" type="button" class="play-btn">
+      <button scale *ngIf="!this.musicState.play;else stopBtn" (click)="playMusic()" type="button" class="play-btn">
         <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="play_arrow"></mat-icon>
       </button>
-      <button scale *ngIf="this.musicState.play" (click)="stopMusic()" type="button" class="play-btn">
-        <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="pause"></mat-icon>
-      </button>
+      <ng-template #stopBtn>
+        <button scale (click)="stopMusic()" type="button" class="play-btn">
+          <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="pause"></mat-icon>
+        </button>
+      </ng-template>
       <mat-icon (click)="prevMusic()" aria-hidden="false" class="icon" aria-label="Example home icon" fontIcon="arrow_back_ios_new"></mat-icon>
       <mat-icon (click)="nextMusic()" aria-hidden="false" class="icon" aria-label="Example home icon" fontIcon="arrow_forward_ios_new"></mat-icon>
       <mat-icon (click)="offVolume()" *ngIf="this.musicState.volume" aria-hidden="false" class="icon" aria-label="Example home icon" fontIcon="volume_down"></mat-icon>
       <mat-icon (click)="onVolume()" *ngIf="!this.musicState.volume" aria-hidden="false" class="icon" aria-label="Example home icon" fontIcon="volume_off"></mat-icon>
-      <input [ngModel]="this.musicState.volume" (ngModelChange)="changeVolume($event)" class="volume-range" type="range" min="0" max="1" value="0.5" step="0.01">
+      <input [ngModel]="this.musicState.volume" (ngModelChange)="changeVolume($event)" class="volume-range" type="range" min="0" max="1" step="0.01">
       <h5>{{this.musicState.volume}}</h5>
     </div>
     <div class="right-side">

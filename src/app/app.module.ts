@@ -6,13 +6,12 @@ import { MusicModule } from './modules/music/music.module';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     MusicModule,
     BrowserModule,
   ],
-  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

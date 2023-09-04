@@ -12,7 +12,7 @@
     transform: translateX(-50%);
     color: $light-blue;
     padding: 0 10px;
-    transition: .5s ease all;
+    transition: .5s ease opacity;
     opacity: 0;
 }
 
@@ -55,10 +55,6 @@
     cursor: pointer;
     transition: 1s ease transform;
 }
-
-// .play-btn:hover{
-//     transform: scale(110%, 110%);
-// }
 
 .right-side{
    color: white;
